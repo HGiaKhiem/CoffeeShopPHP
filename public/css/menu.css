@@ -1,0 +1,204 @@
+/* Màu nền nhẹ nhàng */
+.menu-section {
+  background-color: #fff9f5;
+  padding: 60px 0;
+}
+
+/* Tiêu đề */
+.text-coffee {
+  color: #7b4b28;
+}
+
+/* Ô tìm kiếm */
+.menu-search {
+  width: 60%;
+  max-width: 600px;
+  border-radius: 30px;
+  border: 1px solid #ccc;
+  padding: 10px 20px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.menu-search:focus {
+  border-color: #7b4b28;
+  box-shadow: 0 0 6px rgba(123, 75, 40, 0.4);
+}
+
+/* Lưới menu */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* luôn 4 món mỗi hàng */
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  justify-items: center;
+}
+
+/* Thẻ món */
+.menu-card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  width: 100%;
+  max-width: 260px;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Ảnh món */
+.menu-img {
+  width: 100%;
+  height: 170px;
+  overflow: hidden;
+}
+
+.menu-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.menu-card:hover .menu-img img {
+  transform: scale(1.05);
+}
+
+/* Nội dung */
+.menu-content {
+  padding: 15px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Tên món */
+.menu-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #3a2e27;
+  margin-bottom: 6px;
+}
+
+/* Giá và nút */
+.menu-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.price {
+  color: #7b4b28;
+  font-weight: 600;
+}
+
+.btn-add {
+  background-color: #7b4b28;
+  color: #fff;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+}
+
+.btn-add:hover {
+  background-color: #a05e34;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .menu-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  .menu-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 500px) {
+  .menu-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.menu-controls {
+  text-align: center;
+  margin-bottom: 50px; /* tăng khoảng cách với menu-grid */
+}
+
+/* Bộ lọc loại món */
+.menu-filters {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+/* Nút bộ lọc */
+.filter-btn {
+  background: #fff;
+  border: 1px solid #7b4b28;
+  color: #7b4b28;
+  border-radius: 25px;
+  padding: 6px 18px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+  background: #7b4b28;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* Tăng khoảng cách giữa thanh tìm kiếm và phần grid */
+.menu-section .menu-grid {
+  margin-top: 20px;
+}
+
+/* Animation ẩn/hiện khi lọc */
+.menu-card {
+  opacity: 1;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.menu-card.hide {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+}
+.btn-back {
+  background-color: #7b4b28;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 8px 20px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+.btn-back:hover {
+  background-color: #a05e34;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+}
+
+.btn-back i {
+  font-size: 0.9rem;
+}
