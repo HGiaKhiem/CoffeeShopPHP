@@ -15,15 +15,12 @@ use App\Http\Controllers\ProfileController;
 |
 */
 
-// ✅ Trang chủ Coffee Shop
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// ✅ Sau khi đăng nhập, Laravel chuyển về /dashboard — cũng hiển thị trang home.blade.php
 Route::get('/dashboard', [HomeController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-// ✅ Trang menu (nếu bạn có controller)
 Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 
 // ✅ Các route yêu cầu đăng nhập
