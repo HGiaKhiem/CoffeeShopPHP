@@ -12,6 +12,10 @@ class Mon extends BaseModel
         'TrangThai' => 'boolean',
     ];
 
+    // ==============================
+    // QUAN HỆ CHÍNH
+    // ==============================
+
     public function loaiMon()
     {
         return $this->belongsTo(LoaiMon::class, 'ID_LoaiMon', 'ID_LoaiMon');
@@ -20,5 +24,22 @@ class Mon extends BaseModel
     public function chiTietDonHangs()
     {
         return $this->hasMany(ChiTietDonHang::class, 'ID_Mon', 'ID_Mon');
+    }
+
+
+
+    public function sizes()
+    {
+        return $this->belongsToMany(Size::class, 'Mon_Size', 'ID_Mon', 'ID_Size')
+                    ->withPivot('GiaTang')
+                    ->withTimestamps();
+    }
+
+
+    public function toppings()
+    {
+        return $this->belongsToMany(Topping::class, 'Mon_Topping', 'ID_Mon', 'ID_Topping')
+                    ->withPivot('GiaTang')
+                    ->withTimestamps();
     }
 }

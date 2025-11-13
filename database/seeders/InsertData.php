@@ -22,7 +22,7 @@ class InsertData extends Seeder
                 'HangThanhVien' => 'Thuong',
                 'DiemTichLuy' => 0,
             ],
-            [
+            [   
                 'TenKH' => 'Trần Thị B',
                 'SDT' => '0922222222',
                 'Email' => 'tranthib@gmail.com',

@@ -5,30 +5,34 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ProfileController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Mặc định trang chủ / và dashboard đều hiển thị home.blade.php
-| Các route khác như /menu, /profile, /login, /register vẫn hoạt động bình thường.
-|
-*/
-
+// Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+// Dashboard — sau khi đăng nhập sẽ quay về home
 Route::get('/dashboard', [HomeController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
+// Trang menu
 Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 
-// ✅ Các route yêu cầu đăng nhập
+// Trang chi tiết món 
+Route::get('/menu/{id}', [MenuController::class, 'show'])
+    ->name('menu.show');
+
+// Các route yêu cầu đăng nhập
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Trang chỉnh sửa profile
+    Route::get('/profile', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
+
+    Route::patch('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
+
+    Route::delete('/profile', [ProfileController::class, 'destroy'])
+        ->name('profile.destroy');
 });
 
-// ✅ Các route đăng nhập / đăng ký
+// Route đăng nhập, đăng ký, quên mật khẩu, logout
 require __DIR__.'/auth.php';
