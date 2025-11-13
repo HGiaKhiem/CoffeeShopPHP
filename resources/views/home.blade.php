@@ -39,7 +39,7 @@
                         <h2 class="text-white m-0">* SINCE 1950 *</h2>
 
                         {{-- Nút hiển thị tuỳ trạng thái đăng nhập --}}
-                        @guest
+                        <!-- @guest
                             <a href="{{ route('login') }}" class="btn btn-primary mt-3 px-4 py-2">
                                 <i class="fa fa-sign-in-alt mr-1"></i> Đăng nhập ngay
                             </a>
@@ -58,7 +58,7 @@
                                     <i class="fa fa-sign-out-alt mr-1"></i> Đăng xuất
                                 </button>
                             </form>
-                        @endauth
+                        @endauth -->
                     </div>
                 </div>
 
@@ -81,22 +81,34 @@
     </div>
 
     {{-- About --}}
-    @include('frontend.partials.about')
+    <section id="about">
+        @include('frontend.partials.about')
+    </section>
 
     {{-- Services --}}
-    @include('frontend.partials.services')
+    <section id="services">
+        @include('frontend.partials.services')
+    </section>
 
     {{-- Offer --}}
-    @include('frontend.partials.offer')
+    <section id="offer">
+        @include('frontend.partials.offer')
+    </section>
 
     {{-- Menu --}}
-    @include('frontend.partials.menu')
+    <section id="menu">
+        @include('frontend.partials.menu')
+    </section>
 
     {{-- Reservation --}}
-    @include('frontend.partials.reservation')
+    <section id="reservation">
+        @include('frontend.partials.reservation')
+    </section>
 
     {{-- Testimonial --}}
-    @include('frontend.partials.testimonial')
+    <section id="testimonial">
+        @include('frontend.partials.testimonial')
+    </section>
 
     {{-- Footer --}}
     @include('frontend.partials.footer')
@@ -122,6 +134,47 @@
 
     <!-- Template Javascript -->
     <script src="{{ asset('js/main.js') }}"></script>
+
+    {{-- Cuộn mượt khi click navbar --}}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const links = document.querySelectorAll('.scroll-link');
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href').substring(1);
+                    const section = document.getElementById(targetId);
+
+                    if (section) {
+                        e.preventDefault();
+                        const yOffset = -70; // trừ chiều cao navbar
+                        const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+                        window.scrollTo({
+                            top: y,
+                            behavior: 'smooth'
+                        });
+                    } else {
+                        // nếu ở trang khác thì quay về home
+                        e.preventDefault();
+                        window.location.href = '/#' + targetId;
+                    }
+                });
+            });
+
+            // nếu truy cập bằng hash (#about, #services)
+            if (window.location.hash) {
+                const hash = window.location.hash.substring(1);
+                const section = document.getElementById(hash);
+                if (section) {
+                    setTimeout(() => {
+                        const yOffset = -70;
+                        const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                        window.scrollTo({ top: y, behavior: 'smooth' });
+                    }, 400);
+                }
+            }
+        });
+    </script>
 
     @stack('scripts')
 </body>

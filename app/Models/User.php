@@ -2,47 +2,63 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\KhachHang;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'email',
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // 🔹 Quan hệ: Một User có một KhachHang
+    public function khachHang()
+    {
+        return $this->hasOne(KhachHang::class, 'ID_User', 'id');
+    }
+
+    // 🔹 Khi user được tạo -> tự động tạo KhachHang tương ứng
+    protected static function booted()
+    {
+        static::created(function ($user) {
+            // Kiểm tra tránh tạo trùng nếu đã có
+            if (!$user->khachHang) {
+                KhachHang::create([
+                    'ID_User'        => $user->id,
+                    'TenKH'          => $user->name,
+                    'Email'          => $user->email,
+                    'SDT'            => null,
+                    'HangThanhVien'  => 'Thuong',
+                    'DiemTichLuy'    => 0,
+                    'NgayTao'        => now(),
+                ]);
+            }
+        });
+
+        // (Tùy chọn) Khi xóa user -> xóa luôn KhachHang
+        static::deleting(function ($user) {
+            if ($user->khachHang) {
+                $user->khachHang->delete();
+            }
+        });
     }
 }

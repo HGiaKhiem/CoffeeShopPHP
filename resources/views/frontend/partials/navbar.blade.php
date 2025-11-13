@@ -10,22 +10,89 @@
 
         <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
             <div class="navbar-nav ml-auto p-4">
+                {{-- Trang chủ --}}
                 <a href="{{ route('home') }}" class="nav-item nav-link {{ request()->is('/') ? 'active' : '' }}">Home</a>
-                <a href="#about" class="nav-item nav-link">About</a>
-                <a href="#service" class="nav-item nav-link">Service</a>
-                <a href="{{ route('menu') }}" class="nav-item nav-link {{ request()->is('menu') ? 'active' : '' }}">Menu</a>
 
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                    <div class="dropdown-menu text-capitalize">
-                        <a href="#reservation" class="dropdown-item">Reservation</a>
-                        <a href="#testimonial" class="dropdown-item">Testimonial</a>
-                    </div>
+                {{-- Các phần trong trang home --}}
+                <a href="#about" class="nav-item nav-link scroll-link">About</a>
+                <a href="#services" class="nav-item nav-link scroll-link">Services</a>
+                 <a href="{{ route('menu') }}" class="nav-item nav-link {{ request()->is('menu') ? 'active' : '' }}">Menu</a>
+
+                {{-- Dropdown --}}
+              <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Account</a>
+                <div class="dropdown-menu text-capitalize">
+
+                    {{-- Nếu chưa đăng nhập --}}
+                    @guest
+                        <a href="{{ route('login') }}" class="dropdown-item">
+                            <i class="fa fa-sign-in-alt mr-1"></i> Login
+                        </a>
+                        <a href="{{ route('register') }}" class="dropdown-item">
+                            <i class="fa fa-user-plus mr-1"></i> Register
+                        </a>
+                    @endguest
+
+                    {{-- Nếu đã đăng nhập --}}
+                    @auth
+                        <a href="{{ route('profile.edit') }}" class="dropdown-item">
+                            <i class="fa fa-user mr-1"></i> Profile
+                        </a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="dropdown-item text-danger">
+                                <i class="fa fa-sign-out-alt mr-1"></i> Logout
+                            </button>
+                        </form>
+                    @endauth
                 </div>
+            </div>
 
-                <a href="#contact" class="nav-item nav-link">Contact</a>
+                {{-- Contact --}}
+                <a href="#contact" class="nav-item nav-link scroll-link">Contact</a>
             </div>
         </div>
     </nav>
 </div>
 <!-- Navbar End -->
+
+{{-- Script cuộn mượt --}}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const links = document.querySelectorAll('.scroll-link');
+    links.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const targetId = this.getAttribute('href').substring(1);
+            const section = document.getElementById(targetId);
+
+            if (section) {
+                e.preventDefault();
+                const yOffset = -70; // trừ chiều cao navbar
+                const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+                window.scrollTo({
+                    top: y,
+                    behavior: 'smooth'
+                });
+            } else {
+                // nếu ở trang khác (vd: /login, /menu) → chuyển về home và cuộn đến section
+                e.preventDefault();
+                window.location.href = '/#' + targetId;
+            }
+        });
+    });
+
+    // nếu người dùng truy cập với hash (#about, #services, ...)
+    if (window.location.hash) {
+        const hash = window.location.hash.substring(1);
+        const section = document.getElementById(hash);
+        if (section) {
+            setTimeout(() => {
+                const yOffset = -70;
+                const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                window.scrollTo({ top: y, behavior: 'smooth' });
+            }, 400);
+        }
+    }
+});
+</script>
