@@ -21,6 +21,8 @@ Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 Route::get('/menu/{id}', [MenuController::class, 'show'])
     ->name('menu.show');
 
+Route::get('/ajax/menu', [MenuController::class, 'ajaxMenu'])->name('menu.ajax');
+
 // Các route yêu cầu đăng nhập
 Route::middleware('auth')->group(function () {
 

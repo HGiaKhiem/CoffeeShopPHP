@@ -53,25 +53,6 @@
         @include('frontend.partials.offer')
     </section>
 
-    {{-- Menu + Cart mini --}}
-    <section id="menu">
-        <div class="container py-5">
-            <div class="row">
-
-                {{-- Cột Menu --}}
-                <div class="col-lg-8 mb-4">
-                    @include('frontend.menu')
-                </div>
-
-                {{-- Cột Cart mini --}}
-                <div class="col-lg-4">
-                    @include('frontend.partials.cart-mini')
-                </div>
-
-            </div>
-        </div>
-    </section>
-    
     {{-- Reservation --}}
     <section id="reservation">
         @include('frontend.partials.reservation')

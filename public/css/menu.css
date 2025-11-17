@@ -209,3 +209,40 @@
 .menu-card a:hover {
     text-decoration: none !important;
 }
+
+
+/* Pagination Fix */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 40px;
+}
+
+.pagination li {
+    list-style: none !important;
+}
+
+.pagination li a,
+.pagination li span {
+    padding: 8px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    background: #fff;
+    color: #7b4b28;
+    border: 1px solid #ddd;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.pagination li.active span {
+    background: #7b4b28;
+    color: #fff;
+    border-color: #7b4b28;
+}
+
+.pagination li a:hover {
+    background: #f3e9e2;
+    color: #7b4b28;
+}
