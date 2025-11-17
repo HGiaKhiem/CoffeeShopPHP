@@ -11,10 +11,47 @@ class MenuController extends Controller
 {
     public function index()
     {
-        // Lấy toàn bộ món + loại
-        $mons = Mon::with('loaiMon')->get();
+        // Danh sách món phân trang mặc định
+        $mons = Mon::with('loaiMon')->paginate(12);
 
-        return view('frontend.menu', compact('mons'));
+        // Toàn bộ loại món để render filter
+        $loaiMons = Mon::with('loaiMon')
+            ->get()
+            ->pluck('loaiMon.TenLoaiMon')
+            ->unique()
+            ->filter();
+
+        return view('frontend.menu', compact('mons', 'loaiMons'));
+    }
+
+    public function ajaxMenu(Request $request)
+    {
+        $search = $request->search;
+        $filter = $request->filter;
+
+        $query = Mon::with('loaiMon');
+
+        // Lọc theo loại (data-filter là slug của TenLoaiMon)
+        if ($filter && $filter !== 'all') {
+            $query->whereHas('loaiMon', function ($q) use ($filter) {
+                $q->whereRaw('LOWER(REPLACE(TenLoaiMon, " ", "-")) = ?', [$filter]);
+            });
+        }
+
+        // Tìm kiếm theo tên món
+        if (!empty($search)) {
+            $query->where('TenMon', 'LIKE', "%$search%");
+        }
+
+        // Phân trang
+        $mons = $query->paginate(12);
+
+        // Render phần HTML danh sách + phân trang
+        $html = view('frontend.partials.menu-ajax', compact('mons'))->render();
+
+        return response()->json([
+            'html' => $html,
+        ]);
     }
 
     public function show($id)
