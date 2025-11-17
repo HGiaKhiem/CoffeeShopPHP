@@ -27,36 +27,35 @@
 
 /* Lưới menu */
 .menu-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* luôn 4 món mỗi hàng */
-  gap: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  justify-items: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: auto;
 }
 
 /* Thẻ món */
 .menu-card {
-  background: #fff;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
   width: 100%;
   max-width: 260px;
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  transition: .25s ease;
   display: flex;
   flex-direction: column;
+  height: 360px;              
 }
 
 .menu-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.12);
 }
 
-/* Ảnh món */
 .menu-img {
+  height: 260px;               
   width: 100%;
-  height: 170px;
   overflow: hidden;
 }
 
@@ -64,7 +63,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  transition: .25s ease;
 }
 
 .menu-card:hover .menu-img img {
@@ -73,19 +72,20 @@
 
 /* Nội dung */
 .menu-content {
-  padding: 15px;
-  text-align: center;
+  flex-grow: 1;
+  padding: 10px 12px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  text-align: left;
 }
 
-/* Tên món */
+/* TIÊU ĐỀ – ĐỀU 2 DÒNG */
 .menu-title {
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
   color: #3a2e27;
-  margin-bottom: 6px;
+  margin: 0;
 }
 
 /* Giá và nút */
@@ -134,10 +134,9 @@
 
 .menu-controls {
   text-align: center;
-  margin-bottom: 50px; /* tăng khoảng cách với menu-grid */
+  margin-bottom: 50px; 
 }
 
-/* Bộ lọc loại món */
 .menu-filters {
   display: flex;
   justify-content: center;
@@ -146,7 +145,6 @@
   margin-top: 25px;
 }
 
-/* Nút bộ lọc */
 .filter-btn {
   background: #fff;
   border: 1px solid #7b4b28;
@@ -201,4 +199,13 @@
 
 .btn-back i {
   font-size: 0.9rem;
+}
+
+.menu-card-link,
+.menu-card-link *,
+.menu-content a,
+.menu-content a:hover,
+.menu-card a,
+.menu-card a:hover {
+    text-decoration: none !important;
 }

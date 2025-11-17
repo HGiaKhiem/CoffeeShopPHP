@@ -37,11 +37,13 @@
     </div>
 
     {{-- Menu Grid --}}
-    <div class="menu-grid">
-      @foreach($mons as $mon)
+   <div class="menu-grid">
+    @foreach($mons as $mon)
+      <a href="{{ route('menu.show', $mon->ID_Mon) }}" class="menu-card-link">
         <div class="menu-card"
-             data-name="{{ Str::lower($mon->TenMon) }}"
-             data-type="{{ Str::slug($mon->loaiMon->TenLoaiMon ?? '') }}">
+            data-name="{{ Str::lower($mon->TenMon) }}"
+            data-type="{{ Str::slug($mon->loaiMon->TenLoaiMon ?? '') }}">
+
           <div class="menu-img">
             <img
               src="{{ asset('Mon_images/' . Str::slug($mon->loaiMon->TenLoaiMon ?? '', '') . '/' . Str::slug($mon->TenMon, '') . '.jpg') }}"
@@ -49,17 +51,21 @@
               onerror="this.onerror=null;this.src='{{ $fallback }}';"
             >
           </div>
+
           <div class="menu-content">
             <h5 class="menu-title">{{ $mon->TenMon }}</h5>
-            <p class="text-muted small">{{ $mon->loaiMon->TenLoaiMon ?? '' }}</p>
+            <!-- <p class="text-muted small">{{ $mon->loaiMon->TenLoaiMon ?? '' }}</p> -->
             <div class="menu-footer">
               <div class="price">{{ number_format($mon->Gia, 0, ',', '.') }} đ</div>
               <button class="btn btn-add"><i class="fa fa-plus me-1"></i> Thêm</button>
             </div>
           </div>
+
         </div>
-      @endforeach
-    </div>
+      </a>
+    @endforeach
+  </div>
+
 
   </div>
 </section>
