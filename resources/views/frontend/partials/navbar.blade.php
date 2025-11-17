@@ -14,29 +14,23 @@
         <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
             <div class="navbar-nav ml-auto p-4">
 
-                {{-- HOME --}}
                 <a href="{{ route('home') }}" 
-                    class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
+                   class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
                     Home
                 </a>
 
-                {{-- SCROLL-LINKS --}}
                 <a href="#about" class="nav-item nav-link scroll-link">About</a>
                 <a href="#services" class="nav-item nav-link scroll-link">Services</a>
 
-                {{-- MENU --}}
                 <a href="{{ route('menu') }}" 
-                    class="nav-item nav-link {{ request()->is('menu') ? 'active' : '' }}">
+                   class="nav-item nav-link {{ request()->is('menu') ? 'active' : '' }}">
                     Menu
                 </a>
 
                 {{-- ACCOUNT --}}
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Account</a>
-
                     <div class="dropdown-menu text-capitalize">
-
-                        {{-- Nếu chưa đăng nhập --}}
                         @guest
                             <a href="{{ route('login') }}" class="dropdown-item">
                                 <i class="fa fa-sign-in-alt mr-1"></i> Login
@@ -46,7 +40,6 @@
                             </a>
                         @endguest
 
-                        {{-- Nếu đã đăng nhập --}}
                         @auth
                             <a href="{{ route('profile.edit') }}" class="dropdown-item">
                                 <i class="fa fa-user mr-1"></i> Profile
@@ -62,12 +55,17 @@
                     </div>
                 </div>
 
-                <a href="#contact" class="nav-item nav-link scroll-link">Contact</a>
+                {{-- CART --}}
+                <a href="{{ route('cart') }}" 
+                   class="nav-item nav-link {{ request()->routeIs('cart') ? 'active' : '' }}">
+                    Giỏ hàng
+                </a>
 
             </div>
         </div>
     </nav>
 </div>
+
 
 {{-- Script cuộn mượt --}}
 <script>

@@ -9,14 +9,14 @@
 @section('content')
 
 @php
-    use Illuminate\Support\Str;
+use Illuminate\Support\Str;
 
-    $fallback = asset('img/menu-1.jpg');
+$fallback = asset('img/menu-1.jpg');
 
-    $imagePath = 'Mon_images/'
-        . Str::slug($mon->loaiMon->TenLoaiMon ?? '', '')
-        . '/'
-        . Str::slug($mon->TenMon, '')
+$imagePath = 'Mon_images/' 
+        . Str::slug($mon->loaiMon->TenLoaiMon ?? '', '') 
+        . '/' 
+        . Str::slug($mon->TenMon, '') 
         . '.jpg';
 @endphp
 
@@ -26,12 +26,8 @@
 
         {{-- Breadcrumb --}}
         <div class="mb-3 breadcrumb-text">
-            <a href="{{ route('home') }}">Home</a>
-            <span class="mx-2">/</span>
-
-            <a href="{{ route('menu') }}">Menu</a>
-            <span class="mx-2">/</span>
-
+            <a href="{{ route('home') }}">Home</a> /
+            <a href="{{ route('menu') }}">Menu</a> /
             <span class="text-coffee font-weight-bold">{{ $mon->TenMon }}</span>
         </div>
 
@@ -40,7 +36,7 @@
             {{-- Ảnh --}}
             <div class="col-md-5 mb-4">
                 <div class="menu-image-wrapper">
-                    <img
+                    <img 
                         src="{{ asset($imagePath) }}"
                         onerror="this.onerror=null;this.src='{{ $fallback }}';"
                         alt="{{ $mon->TenMon }}"
@@ -57,7 +53,7 @@
                     Loại: <strong>{{ $mon->loaiMon->TenLoaiMon ?? '---' }}</strong>
                 </p>
 
-                {{-- GIÁ --}}
+                {{-- Giá hiển thị --}}
                 <h3 id="final-price" class="fw-bold text-primary mb-3">
                     {{ number_format($mon->Gia, 0, ',', '.') }} đ
                 </h3>
@@ -65,66 +61,71 @@
                 {{-- Mô tả --}}
                 <p class="mb-4">{{ $mon->MoTa ?? 'Không có mô tả cho món này.' }}</p>
 
-                {{-- SIZE --}}
-                <div class="mb-4">
-                    <label class="font-weight-bold">Size:</label>
-                    <select id="select-size" class="form-control" style="max-width:170px;">
-                        @foreach ($sizes as $size)
-                            <option 
-                                value="{{ $size->ID_Size }}"
-                                data-price="{{ $size->GiaTang + 0 }}"
-                            >
-                                {{ $size->TenSize }} (+{{ number_format($size->GiaTang, 0, ',', '.') }} đ)
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
+                {{-- FORM GIỎ HÀNG --}}
+                <form action="{{ route('cart.add', $mon->ID_Mon) }}" method="POST">
+                    @csrf
 
-                {{-- TOPPING --}}
-                <div class="mb-4">
-                    <label class="font-weight-bold">Topping:</label>
+                    {{-- SIZE --}}
+                    <div class="mb-4">
+                        <label class="font-weight-bold">Size:</label>
+                        <select name="size" id="select-size" class="form-control" style="max-width:170px;">
+                            @foreach ($sizes as $size)
+                                <option 
+                                    value="{{ $size->ID_Size }}"
+                                    data-price="{{ $size->GiaTang + 0 }}"
+                                >
+                                    {{ $size->TenSize }} (+{{ number_format($size->GiaTang, 0, ',', '.') }} đ)
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                    <div class="topping-list mt-2">
-                        @foreach ($toppings as $tp)
-                            <div class="form-check">
-                                <input type="checkbox"
+                    {{-- TOPPING --}}
+                    <div class="mb-4">
+                        <label class="font-weight-bold">Topping:</label>
+
+                        <div class="topping-list mt-2">
+                            @foreach ($toppings as $tp)
+                                <div class="form-check">
+                                    <input 
+                                        type="checkbox"
+                                        name="toppings[]"
                                         class="form-check-input topping-check"
+                                        value="{{ $tp->ID_Topping }}"
                                         data-price="{{ $tp->GiaTang + 0 }}"
                                         id="tp{{ $tp->ID_Topping }}">
 
-                                <label class="form-check-label" for="tp{{ $tp->ID_Topping }}">
-                                    {{ $tp->TenTopping }} (+{{ number_format($tp->GiaTang, 0, ',', '.') }} đ)
-                                </label>
-                            </div>
-                        @endforeach
+                                    <label class="form-check-label" for="tp{{ $tp->ID_Topping }}">
+                                        {{ $tp->TenTopping }} (+{{ number_format($tp->GiaTang, 0, ',', '.') }} đ)
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
-                </div>
 
-                {{-- SỐ LƯỢNG --}}
-                <div class="d-flex align-items-center mb-4">
-                    <label class="font-weight-bold mb-0 mr-3">Số lượng:</label>
-                    <input id="quantity"
-                           type="number"
-                           value="1"
-                           min="1"
-                           class="form-control quantity-input"
-                           style="max-width:90px;">
-                </div>
+                    {{-- SỐ LƯỢNG --}}
+                    <div class="d-flex align-items-center mb-4">
+                        <label class="font-weight-bold mb-0 mr-3">Số lượng:</label>
+                        <input id="quantity" type="number" name="quantity"
+                               value="1" min="1"
+                               class="form-control"
+                               style="max-width:90px;">
+                    </div>
 
-                {{-- NÚT --}}
-                <button class="btn-add">
-                    <i class="fa fa-shopping-cart"></i>
-                    Thêm vào giỏ hàng
-                </button>
+                    {{-- NÚT --}}
+                    <button class="btn btn-primary btn-lg px-4 py-2">
+                        <i class="fa fa-shopping-cart me-2"></i>
+                        Thêm vào giỏ hàng
+                    </button>
 
+                </form>
             </div>
-
         </div>
     </div>
 
 </section>
 
-{{-- ============== SCRIPT TÍNH TIỀN CHUẨN ============== --}}
+{{-- SCRIPT TÍNH TIỀN --}}
 @push('scripts')
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -138,22 +139,21 @@ document.addEventListener("DOMContentLoaded", function () {
     function calcTotal() {
         let total = basePrice;
 
-
+        // size
         let opt = sizeSelect.options[sizeSelect.selectedIndex];
         total += parseInt(opt.dataset.price) || 0;
 
-
+        // topping
         toppingCheckboxes.forEach(tp => {
             if (tp.checked) {
                 total += parseInt(tp.dataset.price) || 0;
             }
         });
 
-
+        // quantity
         let qty = parseInt(qtyInput.value) || 1;
         total *= qty;
 
-        // Format
         priceLabel.textContent = total.toLocaleString("vi-VN") + " đ";
     }
 

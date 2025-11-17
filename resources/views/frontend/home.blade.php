@@ -11,7 +11,6 @@
 
                 <div class="carousel-item active">
                     <img class="w-100" src="{{ asset('img/carousel-1.jpg') }}" alt="Image">
-
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <h2 class="text-primary font-weight-medium m-0">We Have Been Serving</h2>
                         <h1 class="display-1 text-white m-0">COFFEE</h1>
@@ -21,7 +20,6 @@
 
                 <div class="carousel-item">
                     <img class="w-100" src="{{ asset('img/carousel-2.jpg') }}" alt="Image">
-
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <h2 class="text-primary font-weight-medium m-0">We Have Been Serving</h2>
                         <h1 class="display-1 text-white m-0">COFFEE</h1>
@@ -55,11 +53,25 @@
         @include('frontend.partials.offer')
     </section>
 
-    {{-- Menu --}}
+    {{-- Menu + Cart mini --}}
     <section id="menu">
-        @include('frontend.menu')
-    </section>
+        <div class="container py-5">
+            <div class="row">
 
+                {{-- Cột Menu --}}
+                <div class="col-lg-8 mb-4">
+                    @include('frontend.menu')
+                </div>
+
+                {{-- Cột Cart mini --}}
+                <div class="col-lg-4">
+                    @include('frontend.partials.cart-mini')
+                </div>
+
+            </div>
+        </div>
+    </section>
+    
     {{-- Reservation --}}
     <section id="reservation">
         @include('frontend.partials.reservation')

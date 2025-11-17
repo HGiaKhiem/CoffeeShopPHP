@@ -12,6 +12,6 @@ class HomeController extends Controller
         $mons = Mon::with('loaiMon')->take(8)->get();
 
         // ✅ Trả về trang chủ home.blade.php
-        return view('home', compact('mons'));
+        return view('frontend.home', compact('mons'));
     }
 }
