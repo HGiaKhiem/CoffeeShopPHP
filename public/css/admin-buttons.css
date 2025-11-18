@@ -53,27 +53,55 @@ table .cs-btn{ margin-right: .4rem; }
 
 /* Make table action anchors look consistent if they use cs-btn */
 table .cs-btn{ margin-right: .4rem; }
-pagination {
-    margin-top: 12px;
+
+.pagination{
+    margin-top: 8px;
 }
 
-.pagination .page-link {
-    padding: 4px 10px;        /* nhỏ hơn mặc định */
-    font-size: 0.85rem;
-    border-radius: 999px;     /* bo tròn pill */
+.pagination .page-link{
+    padding: .18rem .45rem;     /* nhỏ hơn */
+    font-size: .78rem;          /* nhỏ hơn */
+    border-radius: .375rem;     /* nhẹ nhàng bo góc */
+    min-width: 30px;            /* thu nhỏ nút */
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.pagination .page-item.active .page-link {
-    background-color: #4B2E2A;
-    border-color: #4B2E2A;
+/* Increase specificity for admin content to override other CSS */
+.content .pagination .page-link,
+.coffee-card .pagination .page-link,
+.content .mt-3 .pagination .page-link {
+    padding: .18rem .45rem !important;
+    font-size: .78rem !important;
+    min-width: 30px !important;
+    height: 30px !important;
+}
+
+.pagination .page-item.active .page-link{
+    background-color: var(--cs-primary);
+    border-color: var(--cs-primary);
     color: #fff;
 }
 
-.pagination .page-link:hover {
-    background-color: #BFA283;
-    border-color: #BFA283;
-    color: #fff;
+.pagination .page-link:hover{
+    background-color: rgba(75,46,42,.08);
+    border-color: rgba(75,46,42,.08);
+    color: var(--cs-primary);
 }
+
+/* If Bootstrap overrides still apply, force compact appearance for admin tables */
+.content .pagination .page-item .page-link,
+.coffee-card .pagination .page-item .page-link {
+    padding: .18rem .45rem !important;
+    font-size: .78rem !important;
+    min-width: 30px !important;
+    height: 30px !important;
+}
+
+/* small variant if used elsewhere */
+.pagination.pagination-sm .page-link{ padding: .12rem .35rem; font-size:.72rem; height:28px; min-width:26px; }
 
 .btn-coffee {
     width: auto !important;

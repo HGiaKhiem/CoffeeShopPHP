@@ -3,6 +3,8 @@
 @section('title', 'Quản lý món')
 
 @section('content')
+
+<link rel="stylesheet" href="{{ asset('css/admin-buttons.css') }}">
     {{-- Tiêu đề + nút thêm --}}
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2 mb-4">
         <h2 class="coffee-title mb-0">Quản lý món</h2>

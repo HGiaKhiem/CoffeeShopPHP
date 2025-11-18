@@ -199,9 +199,9 @@
         background-color: #BFA283;
         color: white;
     }
-    .pagination .active .page-link {
+    .pagination .page-item.active .page-link {
         background-color: #4B2E2A;
         border-color: #4B2E2A;
         color: white;
-    }
+}
 </style>
