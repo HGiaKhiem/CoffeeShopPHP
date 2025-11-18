@@ -1,0 +1,84 @@
+/* Admin button styles - consistent look for admin area */
+
+:root{
+    --cs-primary: #4B2E2A; /* dark brown */
+    --cs-secondary: #D8BFAA; /* light warm brown */
+    --cs-accent: #BFA283; /* accent brown */
+    --cs-warning: #B08968; /* muted brown for attention */
+    --cs-danger: #3A1F1A; /* very dark brown for destructive actions */
+    --cs-light: #F5EFE6; /* page background */
+    --cs-text-dark: #2b2b2b;
+}
+
+.cs-btn{
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    border-radius: .5rem;
+    padding: .45rem .9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .12s ease;
+    border: 1px solid transparent;
+    line-height: 1;
+    text-decoration: none;
+}
+
+.cs-btn-primary{ background: var(--cs-primary); color: #fff; }
+.cs-btn-secondary{ background: var(--cs-secondary); color: var(--cs-text-dark); }
+.cs-btn-warning{ background: var(--cs-warning); color: #ffffff; }
+.cs-btn-danger{ background: var(--cs-danger); color: #fff; }
+.cs-btn-outline{ background: transparent; color: var(--cs-text-dark); border-color: rgba(0,0,0,.06); }
+.cs-btn-outline-primary{ background: transparent; color: var(--cs-primary); border-color: rgba(75,46,42,.12); }
+
+.cs-btn-sm{ padding: .25rem .5rem; font-size: .85rem; border-radius: .375rem; }
+.cs-btn-md{ padding: .45rem .9rem; font-size: 1rem; }
+.cs-btn-lg{ padding: .75rem 1.25rem; font-size: 1.05rem; }
+
+.cs-btn-icon{ display:inline-flex; align-items:center; }
+.cs-btn-label{ display:inline-block; }
+
+.cs-btn:disabled, .cs-btn[disabled]{ opacity:.6; cursor:not-allowed; transform:none; }
+.cs-btn:not(:disabled):hover{ transform: translateY(-1px); filter: brightness(.98); }
+.cs-btn:focus{ outline: 3px solid rgba(90,62,54,.12); outline-offset: 2px; }
+
+/* Override Bootstrap badge utility classes to brown variants to avoid green/yellow/red */
+.badge.text-bg-success{ background-color: var(--cs-primary) !important; color: #fff !important; }
+.badge.text-bg-secondary{ background-color: var(--cs-secondary) !important; color: var(--cs-text-dark) !important; }
+.badge.text-bg-warning{ background-color: var(--cs-accent) !important; color: #fff !important; }
+.badge.text-bg-danger{ background-color: var(--cs-danger) !important; color: #fff !important; }
+
+/* Small table action spacing */
+table .cs-btn{ margin-right: .4rem; }
+
+/* Make table action anchors look consistent if they use cs-btn */
+table .cs-btn{ margin-right: .4rem; }
+pagination {
+    margin-top: 12px;
+}
+
+.pagination .page-link {
+    padding: 4px 10px;        /* nhỏ hơn mặc định */
+    font-size: 0.85rem;
+    border-radius: 999px;     /* bo tròn pill */
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #4B2E2A;
+    border-color: #4B2E2A;
+    color: #fff;
+}
+
+.pagination .page-link:hover {
+    background-color: #BFA283;
+    border-color: #BFA283;
+    color: #fff;
+}
+
+.btn-coffee {
+    width: auto !important;
+    min-width: 110px;
+    padding: 8px 16px;
+    display: inline-block !important;
+    text-align: center;
+}

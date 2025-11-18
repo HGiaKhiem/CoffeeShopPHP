@@ -7,6 +7,17 @@ class ChiTietDonHang extends BaseModel
     protected $table = 'ChiTietDonHang';
     protected $primaryKey = 'ID_ChiTiet';
 
+    public $timestamps = false;
+
+    protected $fillable = [
+        'ID_DonHang',
+        'ID_Mon',
+        'SoLuong',
+        'GiaBan',
+        'TuyChon_JSON',
+        'ThanhTien',
+    ];
+
     protected $casts = [
         'SoLuong' => 'integer',
         'GiaBan' => 'decimal:2',

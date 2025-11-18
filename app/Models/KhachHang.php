@@ -23,6 +23,17 @@ class KhachHang extends Model
         'NgayTao',
     ];
 
+    public $timestamps = false;
+
+    protected $fillable = [
+        'TenKH',
+        'SDT',
+        'Email',
+        'HangThanhVien',
+        'DiemTichLuy',
+        'NgayTao',
+    ];
+
     protected $casts = [
         'NgayTao' => 'datetime',
         'DiemTichLuy' => 'integer',

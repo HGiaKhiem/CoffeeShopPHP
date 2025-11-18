@@ -74,7 +74,7 @@ class InsertData extends Seeder
             ['TenLoaiMon' => 'Sinh tố'],     // ID_LoaiMon = 5
             ['TenLoaiMon' => 'Soda'],        // ID_LoaiMon = 6
             ['TenLoaiMon' => 'Sữa chua'],    // ID_LoaiMon = 7
-            ['TenLoaiMon' => 'Mattcha'],     // ID_LoaiMon = 8 (bạn đánh "Mattcha", mình giữ nguyên)
+            ['TenLoaiMon' => 'Mattcha'],     // ID_LoaiMon = 8 
         ]);
          // --- Mon ---
         DB::table('Mon')->insert([
