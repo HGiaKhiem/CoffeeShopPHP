@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Mon;
 use App\Models\Size;
 use App\Models\Topping;
+use Illuminate\Support\Facades\Auth;
+
+$userId = Auth::id();  // Lấy ID user đã đăng nhập
+
 
 use Illuminate\Support\Facades\DB;
 
@@ -139,19 +143,25 @@ class CartController extends Controller
     }
 
 
-  public function order()
+ public function order()
 {
     $cart = session('cart', []);
-
     if (empty($cart)) {
         return back()->with('error', 'Giỏ hàng trống!');
     }
 
-    $idKhach = session('khachhang_id'); 
-    $idBan = session('id_ban', 1);   
+    // Lấy khách hàng theo tài khoản đăng nhập
+    $userId = Auth::id(); 
+    $kh = DB::table('KhachHang')->where('ID_User', $userId)->first();
 
+    if (!$kh) {
+        return back()->with('error', 'Không tìm thấy thông tin khách hàng!');
+    }
 
-    // 1) Tạo đơn hàng
+    $idKhach = $kh->ID_KhachHang;
+    $idBan = session('id_ban', 1);
+
+    // Tạo đơn
     $idDon = DB::table('DonHang')->insertGetId([
         'ID_KhachHang' => $idKhach,
         'ID_Ban'       => $idBan,
@@ -161,7 +171,6 @@ class CartController extends Controller
 
     $tongCong = 0;
 
-    // 2) Lưu chi tiết đơn hàng
     foreach ($cart as $item) {
         $thanhTien = $item['price'] * $item['quantity'];
 
@@ -182,12 +191,10 @@ class CartController extends Controller
         $tongCong += $thanhTien;
     }
 
-    // 3) Cập nhật tổng tiền
     DB::table('DonHang')->where('ID_DonHang', $idDon)->update([
         'TongTien' => $tongCong,
     ]);
 
-    // ❗ KHÔNG XÓA GIỎ HÀNG
     return back()->with('success', "Đặt hàng thành công! Mã đơn: DH{$idDon}");
 }
 

@@ -25,29 +25,16 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        // Tạo user trong bảng users
+        // Tạo user
         $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
-        // Tạo khách hàng trong bảng KhachHang
-        $idKhach = DB::table('KhachHang')->insertGetId([
-            'TenKH'        => $request->name,
-            'Email'        => $request->email,
-            'SDT'          => null,
-            'HangThanhVien'=> 'Thuong',
-            'DiemTichLuy'  => 0,
-            'ID_User'      => $user->id,
-            'NgayTao'      => now(),
-        ]);
-
-        // Lưu vào session
-        session(['khachhang_id' => $idKhach]);
-
         Auth::login($user);
 
         return redirect()->route('home');
     }
+
 }

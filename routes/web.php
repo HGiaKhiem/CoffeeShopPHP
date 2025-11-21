@@ -5,6 +5,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\ReviewController;
 
 // Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -48,6 +50,17 @@ Route::post('/cart/delete-item', [CartController::class, 'deleteItem'])
     ->name('cart.delete.item');
 Route::get('/cart/order', [CartController::class, 'order'])->name('cart.order');
 Route::get('/cart/pay', [CartController::class, 'pay'])->name('cart.pay');
+
+
+
+
+// routes/lich sư mua hàng
+Route::get('/history', [HistoryController::class, 'index'])->name('history');
+//routes danh gia
+Route::post('/review/store', [ReviewController::class, 'store'])
+     ->name('review.store')
+     ->middleware('auth');
+
 
 // Route đăng nhập, đăng ký, quên mật khẩu, logout
 require __DIR__.'/auth.php';
