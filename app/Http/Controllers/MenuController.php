@@ -6,6 +6,7 @@ use App\Models\Mon;
 use App\Models\Size;
 use App\Models\Topping;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MenuController extends Controller
 {
@@ -54,15 +55,29 @@ class MenuController extends Controller
         ]);
     }
 
-    public function show($id)
-    {
-        // Lấy món + loại món
-        $mon = Mon::with('loaiMon')->findOrFail($id);
+   public function show($id)
+{
+    // Lấy món + loại món
+    $mon = Mon::with('loaiMon')->findOrFail($id);
 
-        // Load toàn bộ size và topping
-        $sizes = Size::all();
-        $toppings = Topping::all();
+    // Load size + topping
+    $sizes = Size::all();
+    $toppings = Topping::all();
 
-        return view('frontend.menu-detail', compact('mon', 'sizes', 'toppings'));
-    }
+    // Load đánh giá của món
+    $reviews = DB::table('reviews')
+        ->join('khachhang', 'khachhang.ID_KhachHang', '=', 'reviews.ID_KhachHang')
+        ->where('reviews.ID_Mon', $id)
+        ->select(
+            'reviews.Rating',
+            'reviews.NoiDung',
+            'reviews.NgayTao',
+            'khachhang.TenKH'
+        )
+        ->orderBy('reviews.NgayTao', 'desc')
+        ->get();
+
+    return view('frontend.menu-detail', compact('mon', 'sizes', 'toppings', 'reviews'));
+}
+
 }

@@ -1,40 +1,63 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <i class="fas fa-user-circle mr-2 text-primary"></i> Hồ sơ cá nhân
-        </h2>
-    </x-slot>
+@extends('frontend.layouts.master')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            
-            <!-- Thông tin hồ sơ -->
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-profile-information-form')
-                </div>
-            </div>
+@section('title', 'Hồ sơ khách hàng')
 
-            <!-- Đổi mật khẩu -->
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-password-form')
-                </div>
-            </div>
+<link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+</style>
 
-            <!-- Xóa tài khoản -->
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.delete-user-form')
-                </div>
-            </div>
+@section('content')
+<div class="profile-wrapper">
 
-            <div class="text-center">
-                <a href="{{ route('home') }}" class="btn btn-outline-secondary mt-4">
-                    <i class="fas fa-arrow-left mr-1"></i> Quay lại trang chủ
-                </a>
-            </div>
 
-        </div>
+    {{-- HEADER --}}
+    <div class="text-center mb-4">
+        <h2 class="profile-title"><i class="fas fa-user-circle mr-2"></i> Hồ sơ khách hàng</h2>
+        <p class="text-muted">{{ auth()->user()->email }}</p>
     </div>
-</x-app-layout>
+    
+
+    {{-- PROFILE FORM --}}
+    <div class="profile-card">
+          <div class="mb-4">
+            <a href="{{ route('home') }}" class="btn-history">
+                <i class="fas fa-arrow-left"></i> Quay lại trang chủ            </a>
+        </div>
+        <h4 class="section-title"><i class="fas fa-id-card mr-2"></i>Thông tin tài khoản</h4>
+
+        @include('profile.partials.update-profile-information-form')
+    </div>
+
+    {{-- CHANGE PASSWORD --}}
+    <div class="profile-card">
+        <h4 class="section-title"><i class="fas fa-key mr-2"></i>Đổi mật khẩu</h4>
+
+        @include('profile.partials.update-password-form')
+    </div>
+
+    {{-- ORDER HISTORY --}}
+    <div class="profile-card text-center">
+        <h4 class="section-title"><i class="fas fa-receipt mr-2"></i>Lịch sử mua hàng</h4>
+
+        <a href="{{ route('history') }}" class="btn history-btn px-4 py-2">
+            <i class="fas fa-history mr-1"></i> Xem lịch sử mua hàng
+        </a>
+    </div>
+    {{-- DELETE ACCOUNT --}}
+    <div class="profile-card">
+        <h4 class="section-title text-danger"><i class="fas fa-trash-alt mr-2"></i>Xóa tài khoản</h4>
+
+        @include('profile.partials.delete-user-form')
+    </div>
+
+    {{-- BACK --}}
+    <div class="text-center mt-3">
+        <a href="{{ route('home') }}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left mr-1"></i> Quay lại trang chủ
+        </a>
+    </div>
+
+</div>
+
+
+<script src="{{ asset('js/profile.js') }}"></script>
+@endsection

@@ -1,0 +1,191 @@
+/* ============================
+   MÀU SẮC CHỦ ĐẠO
+============================ */
+:root {
+    --coffee-dark: #4b2c20;
+    --coffee-medium: #6f4e37;
+    --coffee-light: #d9c5b2;
+    --coffee-bg: #f4f1ee;
+    --gold: #c89b3c;
+    --danger: #d9534f;
+}
+
+/* ============================
+   BACKGROUND TRANG PROFILE
+============================ */
+body {
+    background: var(--coffee-bg);
+    font-family: "Roboto", sans-serif;
+}
+
+/* ============================
+   CARD CHÍNH
+============================ */
+.profile-card {
+    background: #fff;
+    padding: 35px 40px;
+    border-radius: 18px;
+    border-left: 8px solid var(--gold);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    margin-bottom: 45px;
+}
+
+/* ============================
+   TIÊU ĐỀ LỚN
+============================ */
+.section-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--coffee-dark);
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.section-title i {
+    color: var(--gold);
+    font-size: 28px;
+    margin-right: 12px;
+}
+
+/* ============================
+   MÔ TẢ NHỎ
+============================ */
+.section-desc {
+    color: #6f6f6f;
+    font-size: 15px;
+    margin-bottom: 25px;
+}
+
+/* ============================
+   LABEL
+============================ */
+.form-label,
+.profile-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--coffee-dark);
+    margin-bottom: 6px;
+    display: block;
+}
+
+/* ============================
+   INPUT
+============================ */
+.profile-input,
+.form-control-custom {
+    width: 100%;
+    padding: 14px 15px;
+    font-size: 17px;
+    border-radius: 12px;
+    border: 2px solid #d4b08c;
+    background: #fff;
+    transition: .25s;
+}
+
+.profile-input:focus,
+.form-control-custom:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 6px rgba(200,155,60,0.4);
+    outline: none;
+}
+
+/* ============================
+   PASSWORD WRAPPER + SHOW/HIDE
+============================ */
+.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.password-wrapper input {
+    padding-right: 48px !important;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #b5885b;
+    font-size: 20px;
+    z-index: 10;
+}
+
+.password-toggle:hover {
+    color: #8a603a;
+}
+
+/* xoá icon mặc định của chrome */
+input::-ms-reveal,
+input::-ms-clear {
+    display: none !important;
+}
+
+
+/* ============================
+   BUTTON CHÍNH
+============================ */
+.btn-coffee,
+.profile-btn {
+    background: var(--coffee-medium);
+    color: #fff;
+    border: none;
+    padding: 12px 26px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 17px;
+    transition: 0.25s;
+    margin-top: 10px;
+}
+
+.btn-coffee:hover,
+.profile-btn:hover {
+    background: var(--coffee-dark);
+}
+
+/* ============================
+   BUTTON NGUY HIỂM
+============================ */
+.btn-danger-coffee,
+.profile-danger-btn {
+    background: var(--danger);
+    color: #fff;
+    padding: 12px 26px;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 600;
+    border: none;
+    transition: .25s;
+}
+
+.btn-danger-coffee:hover,
+.profile-danger-btn:hover {
+    background: #c9302c;
+}
+
+/* ============================
+   BUTTON "LỊCH SỬ MUA HÀNG"
+============================ */
+.btn-history {
+    background: var(--gold);
+    color: white !important;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: .25s;
+}
+
+.btn-history:hover {
+    background: #b4882f;
+    color: #fff !important;
+}
+
+/* ============================
+   TÁCH CÁC KHỐI
+============================ */
+.profile-section {
+    margin-bottom: 45px;
+}
+

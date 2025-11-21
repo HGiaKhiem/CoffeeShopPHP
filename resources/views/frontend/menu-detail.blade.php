@@ -121,6 +121,44 @@ $imagePath = 'Mon_images/'
                 </form>
             </div>
         </div>
+        {{-- BLOCK HIỂN THỊ ĐÁNH GIÁ --}}
+<div class="container mt-4">
+
+    <h3 class="fw-bold text-coffee mb-3">
+        <i class="fa fa-star text-warning"></i> Đánh giá của khách hàng
+    </h3>
+
+    @if ($reviews->isEmpty())
+        <p class="text-muted">Hiện chưa có đánh giá nào cho món này.</p>
+    @endif
+
+    @foreach ($reviews as $rv)
+        <div class="p-3 mb-3" 
+             style="background:#fff; 
+                    border-radius:12px; 
+                    border-left:5px solid #c89b3c; 
+                    box-shadow:0 2px 6px rgba(0,0,0,0.1);">
+
+            <div class="d-flex align-items-center mb-2">
+                <strong>{{ $rv->TenKH }}</strong>
+
+                <span class="text-warning ml-3">
+                    @for ($i = 1; $i <= $rv->Rating; $i++)
+                        ★
+                    @endfor
+                </span>
+            </div>
+
+            <p class="mb-1">{{ $rv->NoiDung ?? 'Khách hàng không để lại nhận xét.' }}</p>
+
+            <small class="text-muted">
+                {{ date('d/m/Y H:i', strtotime($rv->NgayTao)) }}
+            </small>
+        </div>
+    @endforeach
+
+</div>
+
     </div>
 
 </section>

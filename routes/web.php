@@ -7,14 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProfileController;
-
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\MonController;
-use App\Http\Controllers\Admin\LoaiMonController;
-use App\Http\Controllers\Admin\DonHangController;
-use App\Http\Controllers\Admin\KhachHangController;
-
-// ================== TRANG NGƯỜI DÙNG ==================
+use App\Http\Controllers\CartController;
 
 // Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -46,6 +39,17 @@ Route::post('/cart/update-qty', [CartController::class, 'updateQuantity'])->name
 Route::post('/cart/delete-item', [CartController::class, 'deleteItem'])->name('cart.delete.item');
 Route::get('/cart/order', [CartController::class, 'order'])->name('cart.order');
 Route::get('/cart/pay', [CartController::class, 'pay'])->name('cart.pay');
+
+
+
+
+// routes/lich sư mua hàng
+Route::get('/history', [HistoryController::class, 'index'])->name('history');
+//routes danh gia
+Route::post('/review/store', [ReviewController::class, 'store'])
+     ->name('review.store')
+     ->middleware('auth');
+
 
 // Route login/register mặc định của Laravel Breeze
 require __DIR__.'/auth.php';
