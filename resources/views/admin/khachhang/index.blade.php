@@ -46,4 +46,8 @@
             </table>
         </div>
     </div>
+
+    <div class="mt-3">
+        {{ $khachs->withQueryString()->links() }}
+    </div>
 @endsection

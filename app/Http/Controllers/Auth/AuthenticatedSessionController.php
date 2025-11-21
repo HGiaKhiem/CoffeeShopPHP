@@ -39,6 +39,11 @@ class AuthenticatedSessionController extends Controller
             session(['khachhang_id' => $khach->ID_KhachHang]);
         }
 
+        // Nếu là admin thì chuyển tới trang admin
+        if (method_exists($user, 'isAdmin') && $user->isAdmin()) {
+            return redirect()->intended(route('admin.dashboard'));
+        }
+
         return redirect()->intended('/');
     }
 

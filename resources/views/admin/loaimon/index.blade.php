@@ -59,4 +59,8 @@
             </table>
         </div>
     </div>
+
+        <div class="mt-3">
+            {{ $loais->withQueryString()->links() }}
+        </div>
 @endsection

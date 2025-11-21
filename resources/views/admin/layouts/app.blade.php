@@ -7,13 +7,15 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Nút bấm admin -->
     <link rel="stylesheet" href="{{ asset('css/admin-buttons.css') }}">
 
     <style>
         body {
             background-color: #F5EFE6; /* light warm beige */
             font-family: 'Poppins', sans-serif;
-            color: #2b2b2b;
+            color: #4B2E2A; /* main warm brown */
         }
 
         /* Navbar */
@@ -23,37 +25,41 @@
         .navbar-brand,
         .navbar-text,
         .navbar a {
-            color: #F7F1E8 !important; /* light text */
+            color: #EADFD6 !important; /* warm beige */
         }
 
         /* Layout */
         .layout-wrapper {
             display: flex;
-            min-height: calc(100vh - 56px); /* trừ chiều cao navbar */
+            min-height: calc(100vh - 56px);
         }
 
         /* Sidebar */
         .sidebar {
             width: 230px;
-            background-color: #D8BFAA; /* warm light brown */
+            background-color: #D8BFAA; /* light brown */
             padding-top: 15px;
             flex-shrink: 0;
         }
+
         .sidebar a {
             display: block;
             padding: 10px 18px;
-            color: #3C2F2F;
+            color: #4B2E2A;
             text-decoration: none;
             font-weight: 500;
+            border-radius: 8px;
+            margin: 4px 8px;
         }
+
         .sidebar a:hover {
             background-color: #BFA283;
-            color: #fff;
-            border-radius: 8px;
+            color: #4B2E2A;
         }
+
         .sidebar a.active {
             background-color: #4B2E2A;
-            color: #fff;
+            color: #EADFD6;
             border-radius: 0 16px 16px 0;
             font-weight: 600;
         }
@@ -66,19 +72,43 @@
             margin: 0 auto;
         }
 
-        /* Card chung */
+        /* Card */
         .coffee-card {
             background-color: #fff;
             border-radius: 12px;
-            border-left: 5px solid #BFA283; /* accent light brown */
+            border-left: 5px solid #BFA283;
         }
+
         .coffee-title {
             color: #4B2E2A;
             font-weight: 600;
         }
-    </style>
 
-    <link rel="stylesheet" href="{{ asset('css/admin-buttons.css') }}">
+        /* Pagination */
+        .pagination {
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination .page-link {
+            padding: 4px 10px;
+            font-size: 13px;
+            border-radius: 6px;
+            color: #4B2E2A;
+            border: 1px solid #d1c5b6;
+        }
+
+        .pagination .page-link:hover {
+            background-color: #BFA283;
+            color: white;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: #4B2E2A;
+            border-color: #4B2E2A;
+            color: white;
+        }
+    </style>
 </head>
 <body>
 
@@ -88,7 +118,6 @@
     </a>
 
     <div class="ms-auto d-flex align-items-center gap-3">
-        {{-- Hiển thị tên người dùng nếu đã đăng nhập --}}
         @if(auth()->check())
             <span class="navbar-text">
                 Xin chào, {{ auth()->user()->name }}
@@ -97,12 +126,9 @@
                 @endif
             </span>
         @else
-            <span class="navbar-text">
-                Xin chào, Admin
-            </span>
+            <span class="navbar-text">Xin chào, Admin</span>
         @endif
 
-        {{-- Dropdown tài khoản --}}
         <div class="dropdown">
             <button class="btn btn-sm btn-outline-light dropdown-toggle"
                     type="button"
@@ -111,31 +137,22 @@
                     aria-expanded="false">
                 Tài khoản
             </button>
+
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUserMenu">
                 @if(auth()->check())
                     <li class="dropdown-header small text-muted px-3">
                         {{ auth()->user()->email }}
                     </li>
-                    <li>
-                        <a class="dropdown-item" href="{{ route('profile.edit') }}">
-                            Thông tin cá nhân
-                        </a>
-                    </li>
+
                     <li><hr class="dropdown-divider"></li>
                     <li>
                         <form action="{{ route('logout') }}" method="POST" class="px-3 py-1 m-0">
                             @csrf
-                            <button type="submit" class="btn btn-link p-0 text-danger">
-                                Đăng xuất
-                            </button>
+                            <button type="submit" class="btn btn-link p-0 text-danger">Đăng xuất</button>
                         </form>
                     </li>
                 @else
-                    <li>
-                        <a class="dropdown-item" href="{{ route('login') }}">
-                            Đăng nhập
-                        </a>
-                    </li>
+                    <li><a class="dropdown-item" href="{{ route('login') }}">Đăng nhập</a></li>
                 @endif
             </ul>
         </div>
@@ -144,6 +161,7 @@
 
 <div class="layout-wrapper">
     <div class="sidebar">
+
         <a href="{{ route('admin.dashboard') }}"
            class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
             Dashboard
@@ -169,7 +187,6 @@
             Khách hàng
         </a>
 
-        {{-- Sau này thêm POS, v.v… --}}
     </div>
 
     <div class="content">
@@ -178,30 +195,8 @@
 </div>
 
 @yield('scripts')
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
-<style>
-    /* Thu nhỏ và làm đẹp pagination */
-    .pagination {
-        justify-content: center;
-        margin-top: 20px;
-    }
-    .pagination .page-link {
-        padding: 4px 10px;
-        font-size: 13px;
-        border-radius: 6px;
-        color: #4B2E2A;
-        border: 1px solid #d1c5b6;
-    }
-    .pagination .page-link:hover {
-        background-color: #BFA283;
-        color: white;
-    }
-    .pagination .page-item.active .page-link {
-        background-color: #4B2E2A;
-        border-color: #4B2E2A;
-        color: white;
-}
-</style>

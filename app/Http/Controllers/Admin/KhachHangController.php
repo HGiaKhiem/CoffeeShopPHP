@@ -14,7 +14,8 @@ class KhachHangController extends Controller
         $khachs = KhachHang::withCount('donHangs')
             ->withSum('donHangs as tong_tien', 'TongTien')
             ->orderBy('ID_KhachHang', 'asc')
-            ->get();
+
+            ->paginate(10);
 
         return view('admin.khachhang.index', compact('khachs'));
     }

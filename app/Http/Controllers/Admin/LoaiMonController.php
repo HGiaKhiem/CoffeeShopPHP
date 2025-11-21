@@ -10,7 +10,8 @@ class LoaiMonController extends Controller
 {
     public function index()
     {
-        $loais = LoaiMon::orderBy('ID_LoaiMon', 'asc')->get();
+
+        $loais = LoaiMon::orderBy('ID_LoaiMon', 'asc')->paginate(10);
 
         return view('admin.loaimon.index', compact('loais'));
     }

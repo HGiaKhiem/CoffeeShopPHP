@@ -31,6 +31,14 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * Kiểm tra có phải admin không
+     */
+    public function isAdmin(): bool
+    {
+        return isset($this->role) && $this->role === 'admin';
+    }
+
     // 🔹 Quan hệ: Một User có một KhachHang
     public function khachHang()
     {

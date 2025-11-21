@@ -65,17 +65,27 @@
                         <td>{{ number_format($ct->ThanhTien, 0, ',', '.') }} đ</td>
                         <td>
                             @php
-                                $opts = $ct->TuyChon_JSON ?? [];
-                            @endphp
-                            @if(is_array($opts) && count($opts))
-                                <ul class="mb-0 small">
-                                    @foreach($opts as $k => $v)
-                                        <li>{{ $k }}: {{ $v }}</li>
-                                    @endforeach
-                                </ul>
-                            @else
-                                -
-                            @endif
+                            // Nếu lưu dạng JSON string thì decode về array
+                            $opts = $ct->TuyChon_JSON ?? [];
+                            if (is_string($opts)) {
+                                $opts = json_decode($opts, true) ?? [];
+                            }
+                        @endphp
+
+                        @if(is_array($opts) && count($opts))
+                            <ul class="mb-0 small">
+                                @foreach($opts as $k => $v)
+                                    @php
+                                        // Nếu value là mảng (vd: nhiều topping) thì nối lại bằng dấu phẩy
+                                        $val = is_array($v) ? implode(', ', $v) : $v;
+                                    @endphp
+                                    <li>{{ $k }}: {{ $val }}</li>
+                                @endforeach
+                            </ul>
+                        @else
+                            -
+                        @endif
+
                         </td>
                     </tr>
                 @endforeach
