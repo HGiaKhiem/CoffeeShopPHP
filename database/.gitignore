@@ -1,1 +1,44 @@
-*.sqlite*
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('Review', function (Blueprint $table) {
+            $table->bigIncrements('ID_Review');
+
+            // Người đánh giá (user khách hàng)
+            $table->unsignedBigInteger('ID_KhachHang');
+
+            // Món được đánh giá
+            $table->unsignedBigInteger('ID_Mon');
+
+            // Số sao (1–5)
+            $table->unsignedTinyInteger('Rating');
+
+            // Nội dung đánh giá
+            $table->text('NoiDung')->nullable();
+
+            $table->timestamp('NgayTao')->useCurrent();
+
+            // foreign key
+            $table->foreign('ID_KhachHang')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('ID_Mon')->references('ID_Mon')->on('Mon')->onDelete('cascade');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('Review');
+    }
+};

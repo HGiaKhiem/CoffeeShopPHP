@@ -9652,3 +9652,12 @@ h6,
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.nav-item.dropdown > a.nav-link {
+    padding: 12px 20px !important; 
+    cursor: pointer;
+}
+
+.dropdown-menu .dropdown-item {
+    padding: 10px 18px; 
+}
