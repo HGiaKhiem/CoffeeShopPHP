@@ -10,6 +10,10 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\Admin\LoaiMonController;
+use App\Http\Controllers\Admin\MonController;
+use App\Http\Controllers\Admin\KhachHangController;
+use App\Http\Controllers\Admin\DonHangController;
 
 
 // Trang chủ
