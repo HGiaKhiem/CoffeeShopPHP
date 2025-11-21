@@ -7,7 +7,10 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\CartController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\ReviewController;
+
 
 // Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');
