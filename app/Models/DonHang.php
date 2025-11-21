@@ -12,6 +12,17 @@ class DonHang extends BaseModel
         'TongTien' => 'decimal:2',
     ];
 
+    public $timestamps = false;
+
+    protected $fillable = [
+        'ID_KhachHang',
+        'ID_Ban',
+        'ThoiGian',
+        'TrangThai',
+        'TongTien',
+        'GhiChu',
+    ];
+
     public function khachHang()
     {
         return $this->belongsTo(KhachHang::class, 'ID_KhachHang', 'ID_KhachHang');

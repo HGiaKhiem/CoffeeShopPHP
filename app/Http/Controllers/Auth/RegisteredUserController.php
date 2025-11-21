@@ -30,6 +30,8 @@ class RegisteredUserController extends Controller
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
+            // Mặc định user khi đăng ký là 'user'
+            'role'     => 'user',
         ]);
 
         Auth::login($user);

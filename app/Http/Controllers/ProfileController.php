@@ -66,6 +66,7 @@ public function update(ProfileUpdateRequest $request): RedirectResponse
         $user->delete();
 
         $request->session()->invalidate();
+        
         $request->session()->regenerateToken();
 
         return Redirect::to('/');

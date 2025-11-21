@@ -4,11 +4,21 @@ namespace App\Models;
 
 class Mon extends BaseModel
 {
-    protected $table = 'Mon';
-    protected $primaryKey = 'ID_Mon';
+    protected $table = 'Mon';          
+    protected $primaryKey = 'ID_Mon';  
+
+ 
+    protected $fillable = [
+        'TenMon',
+        'ID_LoaiMon',
+        'Gia',
+        'MoTa',
+        'TrangThai',
+    ];
+
 
     protected $casts = [
-        'Gia' => 'decimal:2',
+        'Gia'       => 'decimal:2',
         'TrangThai' => 'boolean',
     ];
 
@@ -17,7 +27,7 @@ class Mon extends BaseModel
     // ==============================
 
     public function loaiMon()
-    {
+    { 
         return $this->belongsTo(LoaiMon::class, 'ID_LoaiMon', 'ID_LoaiMon');
     }
 

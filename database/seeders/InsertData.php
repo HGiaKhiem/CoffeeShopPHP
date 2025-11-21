@@ -14,7 +14,7 @@ class InsertData extends Seeder
     public function run(): void
     {
          // --- KhachHang ---
-        DB::table('KhachHang')->insert([
+        DB::table('KhachHang')->insertOrIgnore([
             [
                 'TenKH' => 'Nguyễn Văn A',
                 'SDT' => '0911111111',
@@ -47,7 +47,7 @@ class InsertData extends Seeder
                 // 'QR_Token' => null by default
             ];
         }
-        DB::table('Ban')->insert($banRows);
+        DB::table('Ban')->insertOrIgnore($banRows);
 
         // --- Size ---
         DB::table('Size')->insert([
@@ -77,7 +77,7 @@ class InsertData extends Seeder
             ['TenLoaiMon' => 'Mattcha'],     // ID_LoaiMon = 8 
         ]);
          // --- Mon ---
-        DB::table('Mon')->insert([
+        DB::table('Mon')->insertOrIgnore([
             // Cà phê (ID_LoaiMon = 1)
             ['TenMon' => 'Cà phê đen',            'ID_LoaiMon' => 1, 'Gia' => 20000, 'TrangThai' => true],
             ['TenMon' => 'Cà phê sữa',            'ID_LoaiMon' => 1, 'Gia' => 25000, 'TrangThai' => true],
@@ -126,7 +126,7 @@ class InsertData extends Seeder
         ]);
 
         // --- Topping ---
-        DB::table('Topping')->insert([
+        DB::table('Topping')->insertOrIgnore([
             [
                 'TenTopping' => 'Chân trâu đen',
                 'GiaTang' => 5000,
@@ -140,5 +140,113 @@ class InsertData extends Seeder
                 'GiaTang' => 5000,
             ],
         ]);
+
+        // --- Fake orders (DonHang + ChiTietDonHang + ThanhToan) ---
+        // Only seed if we don't already have many orders to avoid duplicates.
+        $existingOrders = DB::table('DonHang')->count();
+        if ($existingOrders < 100) {
+            // fetch ids and prices for menu items
+            $monRows = DB::table('Mon')->select('ID_Mon', 'Gia')->get()->toArray();
+            $monMap = [];
+            foreach ($monRows as $m) {
+                $monMap[$m->ID_Mon] = (float) $m->Gia;
+            }
+
+            $khIds = DB::table('KhachHang')->pluck('ID_KhachHang')->toArray();
+            $banIds = DB::table('Ban')->pluck('ID_Ban')->toArray();
+
+            // prepare days range (last 60 days)
+            $days = 60;
+            $ordersCreated = 0;
+            for ($d = $days - 1; $d >= 0; $d--) {
+                // random orders per day (0..4)
+                $num = rand(0, 4);
+                for ($i = 0; $i < $num; $i++) {
+                    if ($ordersCreated + $existingOrders >= 300) break 2; // cap total
+
+                    // random time during the day
+                    $date = (new \DateTime())->modify("-{$d} days");
+                    $hour = rand(8, 21);
+                    $min = rand(0, 59);
+                    $sec = rand(0, 59);
+                    $date->setTime($hour, $min, $sec);
+                    $thoiGian = $date->format('Y-m-d H:i:s');
+
+                    // choose a random customer or null (walk-in)
+                    $idKh = null;
+                    if (!empty($khIds) && rand(0, 4) > 0) { // 80% chance pick
+                        $idKh = $khIds[array_rand($khIds)];
+                    }
+
+                    // choose a table sometimes
+                    $idBan = null;
+                    if (!empty($banIds) && rand(0, 3) === 0) { // 25% chance
+                        $idBan = $banIds[array_rand($banIds)];
+                    }
+
+                    // build order items
+                    $monKeys = array_keys($monMap);
+                    if (empty($monKeys)) break 2; // no menu items
+
+                    $numItems = rand(1, 4);
+                    $tong = 0.0;
+                    $chiTietRows = [];
+                    for ($it = 0; $it < $numItems; $it++) {
+                        $mid = $monKeys[array_rand($monKeys)];
+                        $gia = $monMap[$mid];
+                        $qty = rand(1, 3);
+                        $thanh = $gia * $qty;
+                        $tong += $thanh;
+
+                        $chiTietRows[] = [
+                            'ID_Mon' => $mid,
+                            'SoLuong' => $qty,
+                            'GiaBan' => $gia,
+                            'TuyChon_JSON' => null,
+                            'ThanhTien' => $thanh,
+                        ];
+                    }
+
+                    // random status: mostly paid
+                    $status = (rand(0, 9) < 8) ? 'DA_THANH_TOAN' : 'CHUA_THANH_TOAN';
+
+                    // insert order
+                    $donId = DB::table('DonHang')->insertGetId([
+                        'ID_KhachHang' => $idKh,
+                        'ID_Ban' => $idBan,
+                        'ThoiGian' => $thoiGian,
+                        'TrangThai' => $status,
+                        'TongTien' => $tong,
+                        'GhiChu' => null,
+                    ], 'ID_DonHang');
+
+                    // insert chi tiết
+                    foreach ($chiTietRows as $ct) {
+                        DB::table('ChiTietDonHang')->insert([
+                            'ID_DonHang' => $donId,
+                            'ID_Mon' => $ct['ID_Mon'],
+                            'SoLuong' => $ct['SoLuong'],
+                            'GiaBan' => $ct['GiaBan'],
+                            'TuyChon_JSON' => $ct['TuyChon_JSON'],
+                            'ThanhTien' => $ct['ThanhTien'],
+                        ]);
+                    }
+
+                    // if paid, insert a ThanhToan record
+                    if ($status === 'DA_THANH_TOAN') {
+                        $methods = ['Tiền mặt', 'Momo', 'Thẻ'];
+                        DB::table('ThanhToan')->insert([
+                            'ID_DonHang' => $donId,
+                            'PhuongThuc' => $methods[array_rand($methods)],
+                            'SoTien' => $tong,
+                            'ThoiGian' => $thoiGian,
+                            'GhiChu' => null,
+                        ]);
+                    }
+
+                    $ordersCreated++;
+                }
+            }
+        }
     }
 }

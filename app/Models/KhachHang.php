@@ -11,8 +11,10 @@ class KhachHang extends Model
 
     protected $table = 'khachhang';
     protected $primaryKey = 'ID_KhachHang';
-    public $timestamps = false; // Vì bạn dùng cột NgayTao thủ công
+    // Không dùng timestamps mặc định (bạn quản lý `NgayTao` thủ công)
+    public $timestamps = false;
 
+    // Các cột có thể được gán hàng loạt
     protected $fillable = [
         'ID_User',
         'TenKH',

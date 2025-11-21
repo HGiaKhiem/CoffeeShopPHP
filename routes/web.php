@@ -1,12 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ReviewController;
+
 
 // Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -19,35 +23,23 @@ Route::get('/dashboard', [HomeController::class, 'index'])
 // Trang menu
 Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 
-// Trang chi tiết món 
-Route::get('/menu/{id}', [MenuController::class, 'show'])
-    ->name('menu.show');
+// Chi tiết món 
+Route::get('/menu/{id}', [MenuController::class, 'show'])->name('menu.show');
 
-Route::get('/ajax/menu', [MenuController::class, 'ajaxMenu'])->name('menu.ajax');
-
-// Các route yêu cầu đăng nhập
+// Các route yêu cầu đăng nhập (profile)
 Route::middleware('auth')->group(function () {
-
-    // Trang chỉnh sửa profile
-    Route::get('/profile', [ProfileController::class, 'edit'])
-        ->name('profile.edit');
-
-    Route::patch('/profile', [ProfileController::class, 'update'])
-        ->name('profile.update');
-
-    Route::delete('/profile', [ProfileController::class, 'destroy'])
-        ->name('profile.destroy');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
+// ================== GIỎ HÀNG ==================
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
 Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 Route::get('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
-Route::post('/cart/update-qty', [CartController::class, 'updateQuantity'])
-    ->name('cart.update.qty');
-Route::post('/cart/delete-item', [CartController::class, 'deleteItem'])
-    ->name('cart.delete.item');
+Route::post('/cart/update-qty', [CartController::class, 'updateQuantity'])->name('cart.update.qty');
+Route::post('/cart/delete-item', [CartController::class, 'deleteItem'])->name('cart.delete.item');
 Route::get('/cart/order', [CartController::class, 'order'])->name('cart.order');
 Route::get('/cart/pay', [CartController::class, 'pay'])->name('cart.pay');
 
@@ -62,5 +54,30 @@ Route::post('/review/store', [ReviewController::class, 'store'])
      ->middleware('auth');
 
 
-// Route đăng nhập, đăng ký, quên mật khẩu, logout
+// Route login/register mặc định của Laravel Breeze
 require __DIR__.'/auth.php';
+
+
+// ================== TRANG ADMIN ==================
+Route::middleware(['auth', 'role:admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+
+        // Trang dashboard admin
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+        // Loại món
+        Route::resource('loai-mon', LoaiMonController::class)->names('loaimon');
+
+        // Món
+        Route::resource('mon', MonController::class);
+
+        // Khách hàng
+        Route::get('/khach-hang', [KhachHangController::class, 'index'])->name('khachhang.index');
+        Route::get('/khach-hang/{id}', [KhachHangController::class, 'show'])->name('khachhang.show');
+
+        // Đơn hàng
+        Route::get('/don-hang', [DonHangController::class, 'index'])->name('donhang.index');
+        Route::get('/don-hang/{id}', [DonHangController::class, 'show'])->name('donhang.show');
+    });

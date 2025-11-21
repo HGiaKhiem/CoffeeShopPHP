@@ -15,6 +15,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     protected $hidden = [
@@ -28,6 +29,14 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Kiểm tra có phải admin không
+     */
+    public function isAdmin(): bool
+    {
+        return isset($this->role) && $this->role === 'admin';
     }
 
     // 🔹 Quan hệ: Một User có một KhachHang
