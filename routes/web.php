@@ -44,9 +44,19 @@ Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.r
 Route::get('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
 Route::post('/cart/update-qty', [CartController::class, 'updateQuantity'])->name('cart.update.qty');
 Route::post('/cart/delete-item', [CartController::class, 'deleteItem'])->name('cart.delete.item');
-Route::get('/cart/order', [CartController::class, 'order'])->name('cart.order');
-Route::get('/cart/pay', [CartController::class, 'pay'])->name('cart.pay');
-
+// Route::get('/cart/order', [CartController::class, 'order'])->name('cart.order');
+// Route::get('/cart/pay', [CartController::class, 'pay'])->name('cart.pay');
+Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout')->middleware('auth'); // bắt buộc đăng nhập (khuyến nghị)
+Route::post('/checkout', [CartController::class, 'placeOrder'])->name('cart.placeOrder')->middleware('auth');
+Route::get('/payment/{id}', [CartController::class, 'payment'])
+    ->name('cart.payment')
+    ->middleware('auth');
+Route::get('/order-success/{id}', [CartController::class, 'orderSuccess'])
+    ->name('cart.success')
+    ->middleware('auth');
+Route::post('/order-confirm/{id}', [CartController::class, 'confirmPayment'])
+    ->name('cart.confirmPayment')
+    ->middleware('auth');
 
 
 

@@ -3,7 +3,7 @@
 @section('title', 'Giỏ hàng')
 
 @section('content')
-<div class="container py-5">
+<div class="container py-5" style="padding-top: 140px;">
 
     <h2 class="fw-bold mb-4">Giỏ hàng của bạn</h2>
 
@@ -105,7 +105,7 @@
                     @endforeach
 
                     <tr class="fw-bold bg-light">
-                        <td colspan="3" class="text-right">Tổng cộng:</td>
+                        <td colspan="3" class="text-end">Tổng cộng:</td>
                         <td colspan="2" id="grand-total" class="text-danger">
                             {{ number_format($grandTotal) }} đ
                         </td>
@@ -117,14 +117,12 @@
         <a href="{{ route('cart.clear') }}" class="btn btn-warning mt-3">
             Xóa toàn bộ giỏ
         </a>
-        
-        <a href="{{ route('cart.order') }}" class="btn btn-success mt-3">
+
+        {{-- ✅ BUTTON ĐẶT HÀNG MỚI --}}
+        <a href="{{ route('cart.checkout') }}" class="btn btn-success mt-3 ms-2">
             ✔ Đặt hàng
         </a>
 
-        <a href="{{ route('cart.pay') }}" class="btn btn-primary mt-3 ms-2">
-            💳 Thanh toán
-        </a>
     @endif
 </div>
 @endsection
@@ -176,7 +174,6 @@ $(document).ready(function () {
 
             $("#grand-total").text(res.grand_total + " đ");
 
-            // Giỏ trống → đổi UI
             if (res.cart_empty) {
                 $(".cart-table").html(`
                     <div class="alert alert-info">Giỏ hàng đang trống.</div>
