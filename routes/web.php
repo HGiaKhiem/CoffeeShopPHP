@@ -26,7 +26,7 @@ Route::get('/dashboard', [HomeController::class, 'index'])
 
 // Trang menu
 Route::get('/menu', [MenuController::class, 'index'])->name('menu');
-
+Route::get('/menu/ajax', [MenuController::class, 'ajaxMenu'])->name('menu.ajax'); 
 // Chi tiết món 
 Route::get('/menu/{id}', [MenuController::class, 'show'])->name('menu.show');
 
