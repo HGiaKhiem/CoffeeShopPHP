@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let searchText = "";
     let filterType = "all";
 
-    const ajaxUrl = "/ajax/menu";
+    const ajaxUrl = "/menu/ajax";
 
     // Hàm load menu bằng fetch (không cần jQuery)
     function loadMenu(page = 1) {
